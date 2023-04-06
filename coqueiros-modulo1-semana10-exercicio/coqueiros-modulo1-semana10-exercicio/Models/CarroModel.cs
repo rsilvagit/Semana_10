@@ -13,9 +13,5 @@ namespace coqueiros_modulo1_semana10_exercicio.Models
         [ForeignKey("MarcaModel")]
         public List<MarcaModel>? Marca { get; set; }
         public DateTime DataLocacao { get; set; }
-
-
-        
-        
     }
 }
