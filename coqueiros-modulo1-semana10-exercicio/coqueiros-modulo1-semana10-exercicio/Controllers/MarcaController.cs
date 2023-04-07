@@ -1,11 +1,12 @@
-﻿using coqueiros_modulo1_semana10_exercicio.Models;
-using Microsoft.AspNetCore.Http;
+﻿using coqueiros_modulo1_semana10_exercicio.DTO;
+using coqueiros_modulo1_semana10_exercicio.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using coqueiros_modulo1_semana10_exercicio.DTO;
+
 
 namespace coqueiros_modulo1_semana10_exercicio.Controllers
 {
-    
+
     public class MarcaController : Controller
     {
         private readonly LocacaoContext _dbcontext;
@@ -33,19 +34,85 @@ namespace coqueiros_modulo1_semana10_exercicio.Controllers
             return View();
         }
 
-        // POST: MarcaController/Create
+        // Post: 1
         [HttpPost("marca")]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([FromBody] MarcaDto marcaDto)
         {
-            try
+
+            if (marcaDto.Nome == null || marcaDto.Codigo != 0)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest("Falha na requisição Post");
             }
-            catch
+            else
             {
-                return View();
+                MarcaModel marcaModel = new MarcaModel();
+                marcaModel.Nome = marcaDto.Nome;
+                marcaModel.Id = 0;
+                _dbcontext.Marca.Add(marcaModel);
+                _dbcontext.SaveChanges();
+                return Ok();
+            }
+
+
+
+        }
+
+        [HttpPut("{codigo}")]
+        public ActionResult EditarId([FromRoute] int codigo, [FromBody] MarcaDto marcaDto)
+        {
+            var filtro = _dbcontext.Marca.Where(o => o.Id == codigo).FirstOrDefault();
+            if (filtro != null)
+            {
+                if (marcaDto.Codigo != 0)
+                {
+                    return BadRequest("Não foi possivel editar os dados.");
+                }
+                else
+                {
+                    MarcaModel marcaModel = new MarcaModel();
+                    marcaModel.Nome = marcaDto.Nome;
+                    marcaModel.Id = marcaDto.Codigo;
+                    _dbcontext.Marca.Attach(marcaModel);
+                    _dbcontext.SaveChanges();
+                    return Ok();
+                }
+            }
+            else
+            {
+                return BadRequest("Código não encontrado.");
             }
         }
+        [HttpDelete("{codigo}")]
+        public ActionResult DeletarId([FromRoute] int codigo)
+        {
+            var filtro = _dbcontext.Marca.Where(o => o.Id == codigo).FirstOrDefault();
+            if (filtro != null)
+            {
+                _dbcontext.Marca.Remove(filtro);
+                _dbcontext.SaveChanges();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        } 
+            /*[HttpGet]
+        public ActionResult<List<MarcaDTO>> ObterTodos()
+        {
+
+            //var ListaMarcas = new MarcaDTO();
+            List<MarcaDTO> ListaMarcaDTO = new List<MarcaDTO>();
+
+            foreach (var item in _marca.Marcas)
+            {
+                var MarcaDTO = new MarcaDTO();
+                MarcaDTO.Codigo = item.ID;
+                MarcaDTO.Nome = item.Nome;
+                ListaMarcaDTO.Add(MarcaDTO);
+            }
+            return Ok(ListaMarcaDTO);
+        }*/
 
         // GET: MarcaController/Edit/5
         public ActionResult Edit(int id)
