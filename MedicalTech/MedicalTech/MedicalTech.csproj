@@ -7,6 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\NovaPasta\**" />
+    <Compile Remove="NovaPasta\**" />
+    <Compile Remove="Properties\NovaPasta\**" />
+    <Content Remove="Controllers\NovaPasta\**" />
+    <Content Remove="NovaPasta\**" />
+    <Content Remove="Properties\NovaPasta\**" />
+    <EmbeddedResource Remove="Controllers\NovaPasta\**" />
+    <EmbeddedResource Remove="NovaPasta\**" />
+    <EmbeddedResource Remove="Properties\NovaPasta\**" />
+    <None Remove="Controllers\NovaPasta\**" />
+    <None Remove="NovaPasta\**" />
+    <None Remove="Properties\NovaPasta\**" />
+    <_WebToolingArtifacts Remove="Properties\NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
