@@ -7,5 +7,7 @@
         public List<string> ListaCuidadosEspecifios { get; set; }
         public string Convenio { get; set; }
         public string? StatusdeAtendimento { get; set; }
+        public List<string> TotalAtendimentos { get; set; }
+        
     }
 }
